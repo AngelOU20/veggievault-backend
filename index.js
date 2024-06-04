@@ -11,10 +11,6 @@ app.use(cors());
 
 async function main() {
   await mongoose.connect(process.env.DB_CNN);
-
-  app.get("/", (req, res) => {
-    res.send("Hello World!");
-  });
 }
 
 main()
