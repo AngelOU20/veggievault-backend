@@ -1,19 +1,32 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
-
-// getting-started.js
+const cors = require("cors");
 const mongoose = require("mongoose");
 
-main().catch((err) => console.log(err));
+require("dotenv").config();
+
+app.use(express.json());
+app.use(cors());
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/test");
+  await mongoose.connect(process.env.DB_CNN);
 
   app.get("/", (req, res) => {
     res.send("Hello World!");
   });
 }
+
+main()
+  .then(() => console.log("MongoDB connected!!"))
+  .catch((err) => console.log(err));
+
+// Routes
+const ItemRoutes = require("./src/routes/ItemRoute");
+const CategoryRoutes = require("./src/routes/CategoryRoute");
+
+app.use("/api", ItemRoutes);
+app.use("/api", CategoryRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
