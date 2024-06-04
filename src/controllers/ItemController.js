@@ -39,9 +39,34 @@ const getLatestRecipes = async (req, res) => {
   }
 };
 
+const getPaginatedRecipes = async (req, res) => {
+  const { page = 1, limit = 8 } = req.query;
+
+  try {
+    const recipes = await Recipe.find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
+
+    const total = await Recipe.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    res.status(200).json({
+      page: parseInt(page),
+      limit: parseInt(limit),
+      totalPages,
+      totalRecipes: total,
+      recipes,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching paginated recipes" });
+  }
+};
+
 module.exports = {
   getAllRecipes,
   getSeachedRecipes,
   getSingleRecipe,
   getLatestRecipes,
+  getPaginatedRecipes,
 };
