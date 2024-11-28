@@ -9,7 +9,7 @@ require("dotenv").config();
 app.use(express.json());
 
 const corsOptions = {
-  origin: ["https://veggievault-frontend.vercel.app", "http://localhost:3000"],
+  origin: ["https://veggievault-frontend.vercel.app", "http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
