@@ -7,7 +7,14 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: ["https://veggievault-frontend.vercel.app", "http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 async function main() {
   await mongoose.connect(process.env.DB_CNN);
@@ -17,7 +24,6 @@ main()
   .then(() => console.log("MongoDB connected!!"))
   .catch((err) => console.log(err));
 
-// Routes
 const ItemRoutes = require("./src/routes/ItemRoute");
 const CategoryRoutes = require("./src/routes/CategoryRoute");
 
